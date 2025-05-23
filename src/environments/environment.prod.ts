@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'https://my-sheets-proxy.onrender.com/api'
+    apiUrl: 'https://us-central1-pleatswithdivu.cloudfunctions.net/api/api'
   };

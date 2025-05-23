@@ -67,7 +67,6 @@ export class AddCustomerComponent implements OnInit {
       this.customerService.createCustomer(customerToSend).subscribe({
         next: () => {
           localStorage.setItem(this.newCustomer.firstName, JSON.stringify(this.newCustomer))
-          this.customerService.sendAutoWhatsApp(this.newCustomer.phone, this.newCustomer.firstName)
           this.commonService.loadAndResetValue();
         },
         error: (err) => {

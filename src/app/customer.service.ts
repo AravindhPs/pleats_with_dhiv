@@ -38,16 +38,6 @@ export class CustomerService {
     return throwError(() => new Error('Something bad happened; please try again later. Details: ' + error.message || error.error?.error || error));
   }
 
- sendAutoWhatsApp(phone: string, name: string) {
-  this.http.post(environment.whatsappApiUrl + '/send-whatsapp', {
-    phone,
-    name,
-  }).subscribe({
-    next: res => console.log('WhatsApp message sent!', res),
-    error: err => console.error('Failed to send message', err)
-  });
-}
-
 
   getCustomers(): Observable<Customer[]> {
     return this.http.get<Customer[]>(this.apiUrl).pipe(
