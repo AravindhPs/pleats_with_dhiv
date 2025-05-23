@@ -1,0 +1,33 @@
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .button-group2{
+     display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+
+  .opacity{
+    opacity: 0.2;
+  }
+  
+  /* Delete Button */
+  .btn.delete {
+    background-color: #f44336;
+    color: white;
+  }
+  .btn.delete:hover {
+    background-color: #e53935;
+  }
+
+  @media (max-width: 768px) {
+  .button-group2{
+    flex-direction: column;
+  }
+}
+  

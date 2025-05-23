@@ -1,0 +1,15 @@
+<div class="border">
+<div (click)="goToCustomerList()" class="title-container">
+  <p class="page-title">Pleats With Divu</p>
+  <img src="assets/logo.jpg" alt="Logo" class="logo" />
+</div>
+<div *ngIf="loader" class="loader-overlay">
+  <div class="spinner"></div>
+</div>
+<app-customer-lists *ngIf="loadCustomer"></app-customer-lists>
+
+<app-add-customer *ngIf="isAdd"></app-add-customer>
+
+<app-update-customer *ngIf="isUpdate"></app-update-customer>
+</div>
+

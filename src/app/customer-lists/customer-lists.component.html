@@ -1,0 +1,58 @@
+<div *ngIf="error" style="color: red;">Error: {{ error }}</div>
+<div class="page-wrapper">
+  <!-- Left: Customer List -->
+  <div class="left-section">
+    <div class="header">
+      <span class="page-title">Customer List</span>
+      <input class="search-input" (input)="onInputChange($event)" [(ngModel)]="searchPhone" id="inputSearch"
+        placeholder="Search Customer by phone number..." />
+      <select (change)="filterData()" [(ngModel)]="orderStatus">
+        <option value="Show Both">Show Both <span *ngIf="orderStatus == 'Show Both'">- {{customers.length}}</span>
+        </option>
+        <option value="Delivered">Delivered <span *ngIf="orderStatus == 'Delivered'">- {{customers.length}}</span>
+        </option>
+        <option value="In-Progress">In-Progress <span *ngIf="orderStatus == 'In-Progress'">- {{customers.length}}</span>
+        </option>
+      </select>
+      <button class="add-customer-btn" (click)="activateButton()">Add Customer</button>
+    </div>
+
+    <ul *ngIf="!isLoading && !error && customers" class="customer-list">
+      <li *ngFor="let customer of customers; let k = index" class="customer-item">
+        <div class="customer-header">
+          <div class="customer-info">
+            <span>{{ k + 1 }}</span>. <span class="capitalize">{{ customer.firstName }} </span> {{ customer.lastName }}
+            -
+            ({{ customer.email }}, {{ customer.phone }}) - <span
+              [ngClass]="customer.deliveryStatus == 'yes' ? 'status-delivered' : 'status-inprogress'">{{customer.deliveryStatus
+              == 'yes' ? 'Delivered' : 'In-Progress'}}</span>
+          </div>
+          <div class="button-group">
+            <button class="action-btn edit-btn" (click)="onEditCustomer(customer)">✎</button>
+            <button class="action-btn delete-btn"
+              (click)="commonService.onDeleteCustomer(customer.id, customer.firstName)">🗑️</button>
+          </div>
+        </div>
+
+        <div class="measurements-wrapper">
+          <div class="measurements">
+            <span><strong>Pallu length:</strong> {{ customer.measurements.palluLength }}</span>
+            <span><strong>Hip 1:</strong> {{ customer.measurements.Hip1 }}</span>
+            <span><strong>Hip 2:</strong> {{ customer.measurements.Hip2 }}</span>
+            <span><strong>B Size:</strong> {{ customer.measurements.bSize }}</span>
+            <span class="notes-input"><strong>Notes:</strong> {{ customer.measurements.notes }}</span>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Right: Calendar -->
+  <div class="right-section">
+    <mat-calendar [(selected)]="selectedDate" (selectedChange)="commonService.onDateSelected(selectedDate.toString(), 'list')"></mat-calendar>
+    <textarea class="text-area" type="text" [value]="commonService.dateToDeliver"></textarea>
+  </div>
+</div>
+
+
+<p *ngIf="!isLoading && !error && customers.length === 0">No customers found.</p>
