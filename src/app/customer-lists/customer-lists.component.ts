@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonServiceService } from '../common-service.service';
 import { Customer, CustomerService } from '../customer.service';
-
+import {environment} from '../../environments/environment';
 @Component({
   selector: 'app-customer-lists',
   templateUrl: './customer-lists.component.html',
@@ -14,6 +14,7 @@ export class CustomerListsComponent implements OnInit {
   customers: Customer[] = [];
   selectedDate: Date = new Date();
   orderStatus: string = 'Show Both';
+  hideButton = environment.showDevButtons;
 
   constructor(public commonService: CommonServiceService, private customerService: CustomerService) {
 
