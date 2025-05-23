@@ -5,7 +5,7 @@
     <div class="header">
       <span class="page-title">Customer List</span>
       <input class="search-input" (input)="onInputChange($event)" [(ngModel)]="searchPhone" id="inputSearch"
-        placeholder="Search Customer by phone number..." />
+        placeholder="Search Customer by name..." />
       <select (change)="filterData()" [(ngModel)]="orderStatus">
         <option value="Show Both">Show Both <span *ngIf="orderStatus == 'Show Both'">- {{customers.length}}</span>
         </option>
