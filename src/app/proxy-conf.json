@@ -1,0 +1,9 @@
+{
+    "/api": {
+      "target": "https://script.google.com/macros/s/your-script-id/exec",
+      "secure": true,
+      "changeOrigin": true,
+      "logLevel": "debug",
+      "pathRewrite": { "^/api": "" }
+    }
+  }

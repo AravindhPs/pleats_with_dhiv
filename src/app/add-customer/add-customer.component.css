@@ -1,0 +1,22 @@
+.title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center both horizontally */
+    gap: 15px; /* Space between image and text */
+    margin: 30px 0;
+  }
+  
+  .logo {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+  }
+  
+  .page-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #5c3d99;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  

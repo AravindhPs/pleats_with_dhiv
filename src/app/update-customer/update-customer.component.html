@@ -1,0 +1,71 @@
+<div *ngIf="error" style="color: red;">Error: {{ error }}</div>
+<div class="customer-form-container">
+    <h2>Customer Detail</h2>
+  
+    <div class="update-form-group">
+      <label>First Name:</label>
+      <input [(ngModel)]="commonService.newCustomer.firstName" placeholder="First Name" />
+    </div>
+  
+    <div class="update-form-group">
+      <label>Last Name:</label>
+      <input [(ngModel)]="commonService.newCustomer.lastName" placeholder="Last Name" />
+    </div>
+  
+    <div class="update-form-group">
+      <label>Email:</label>
+      <input [(ngModel)]="commonService.newCustomer.email" placeholder="Email" />
+    </div>
+  
+    <div class="update-form-group">
+      <label>Phone Number:</label>
+      <input [(ngModel)]="commonService.newCustomer.phone" placeholder="Phone" />
+    </div>
+  
+    <div class="update-form-group">
+      <label>Pallu Length:</label>
+      <input [(ngModel)]="commonService.newCustomer.measurements.palluLength" placeholder="Pallu length" />
+    </div>
+  
+    <div class="update-form-group">
+      <label>Hip1 Size:</label>
+      <input [(ngModel)]="commonService.newCustomer.measurements.Hip1" placeholder="Hip1 Size" />
+    </div>
+  
+    <div class="update-form-group">
+      <label>Hip2 Size:</label>
+      <input [(ngModel)]="commonService.newCustomer.measurements.Hip2" placeholder="Hip2 Size" />
+    </div>
+  
+    <div class="update-form-group">
+      <label>B Size:</label>
+      <input [(ngModel)]="commonService.newCustomer.measurements.bSize" placeholder="B Size" />
+    </div>
+  
+    <div class="update-form-group">
+      <label>Notes:</label>
+      <textarea class="textarea" [(ngModel)]="commonService.newCustomer.measurements.notes" placeholder="Notes"></textarea>
+    </div>
+
+    <div class="update-form-group">
+      <label>No Of Sarees :</label>
+      <input [(ngModel)]="sareeCount" (ngModelChange)="assignSareeCount()" placeholder="No Of Sarees" />
+    </div>
+
+    <div class="update-form-group">
+      <label>Date Visited:</label>
+      <textarea class="textarea" [(ngModel)]="dateVisited" placeholder="Date Visited"></textarea>
+    </div>
+
+     <div class="update-form-group">
+      <label>Expected Delivery Date:</label>
+        <input type="date" [min]="today" [(ngModel)]="expecteDate" (change)="commonService.onDateSelected(commonService.newCustomer.expectedDeliveryDate, 'add')" placeholder="Expected Delivery" />
+    </div>
+  
+    <div class="button-group2">
+      <button class="btn update" (click)="onUpdateCustomer()">Update Customer</button>
+      <button [ngClass]="commonService.newCustomer.deliveryStatus == 'yes'? 'btn update opacity' : isDelivery ? 'btn update' : oldSareeCount == undefined ? 'btn delete opacity' : 'btn delete'" class="btn update" [disabled]="oldSareeCount == undefined" (click)="updateDeliveryStatus()">Delivery</button>
+      <button class="btn delete" (click)="commonService.onDeleteCustomer(commonService.newCustomer.id, commonService.newCustomer.firstName)">Delete Customer</button>
+      <button class="btn cancel" (click)="commonService.goCustomerList()">Cancel</button>
+    </div>    
+  </div>

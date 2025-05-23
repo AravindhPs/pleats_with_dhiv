@@ -1,0 +1,61 @@
+<div *ngIf="error" style="color: red;">Error: {{ error }}</div>
+<div class="customer-form-container">
+    <h2>Add New Customer</h2>
+
+    <div class="form-group">
+        <input [(ngModel)]="newCustomer.firstName" placeholder="First Name" />
+    </div>
+
+    <div class="form-group">
+        <input [(ngModel)]="newCustomer.lastName" placeholder="Last Name" />
+    </div>
+
+    <div class="form-group">
+        <input [(ngModel)]="newCustomer.email" placeholder="Email" />
+    </div>
+
+    <div class="form-group">
+        <input [(ngModel)]="newCustomer.phone" placeholder="Phone" />
+    </div>
+
+    <div class="form-group">
+        <input [(ngModel)]="newCustomer.measurements.palluLength" placeholder="Pallu length" />
+    </div>
+
+    <div class="form-group">
+        <input [(ngModel)]="newCustomer.measurements.Hip1" placeholder="Hip1 Size" (ngModelChange)="assignHip2Value()" />
+    </div>
+
+    <div class="form-group">
+        <input [(ngModel)]="newCustomer.measurements.Hip2" placeholder="Hip2 Size" />
+    </div>
+
+    <div class="form-group">
+        <input [(ngModel)]="newCustomer.measurements.bSize" placeholder="B Size" />
+    </div>
+
+    <div class="form-group">
+        <input [(ngModel)]="newCustomer.measurements.notes" placeholder="Notes" />
+    </div>
+
+    <div class="form-group">
+        <input [(ngModel)]="sareeCount" (ngModelChange)="assignSareeCount()" placeholder="No Of Sarees" />
+    </div>
+
+    <div class="form-group">
+        <input [(ngModel)]="newCustomer.dateVisited" placeholder="Date Visited" />
+    </div>
+
+    <div class="form-group">
+        <input type="date" [min]="today" [(ngModel)]="newCustomer.expectedDeliveryDate" (change)="commonService.onDateSelected(newCustomer.expectedDeliveryDate, 'add')" placeholder="Expected Delivery" />
+    </div>
+
+    <div class="form-group">
+       <textarea style="margin-left:1%" class="textarea" type="text" [value]="commonService.isDatePossible"></textarea>
+    </div>
+
+    <div class="button-group1">
+        <button class="btn update" (click)="onSubmitNewCustomer()">Add Customer</button>
+        <button class="btn cancel" (click)="commonService.goCustomerList()">Cancel</button>
+    </div>
+</div>
