@@ -14,7 +14,7 @@
         <option value="In-Progress">In-Progress <span *ngIf="orderStatus == 'In-Progress'">- {{customers.length}}</span>
         </option>
       </select>
-      <button class="add-customer-btn" (click)="activateButton()">Add Customer</button>
+      <button *ngIf="hideButton" class="add-customer-btn" (click)="activateButton()">Add Customer</button>
     </div>
 
     <ul *ngIf="!isLoading && !error && customers" class="customer-list">
@@ -28,8 +28,8 @@
               == 'yes' ? 'Delivered' : 'In-Progress'}}</span>
           </div>
           <div class="button-group">
-            <button class="action-btn edit-btn" (click)="onEditCustomer(customer)">✎</button>
-            <button class="action-btn delete-btn"
+            <button *ngIf="hideButton" class="action-btn edit-btn" (click)="onEditCustomer(customer)">✎</button>
+            <button *ngIf="hideButton" class="action-btn delete-btn"
               (click)="commonService.onDeleteCustomer(customer.id, customer.firstName)">🗑️</button>
           </div>
         </div>
