@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonServiceService } from '../common-service.service';
 import { Customer, CustomerService } from '../customer.service';
-import {environment} from '../../environments/environment';
+import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-customer-lists',
   templateUrl: './customer-lists.component.html',
@@ -42,7 +42,7 @@ export class CustomerListsComponent implements OnInit {
       next: (data) => {
         this.customers = data;
         this.customers.forEach((customer: Customer, i) => {
-          console.log(i + 1 + '.  ' +JSON.stringify(customer));
+          console.log(i + 1 + '.  ' + JSON.stringify(customer));
           customer.measurements = JSON.parse(customer.measurements as any);
         })
         this.customers.sort((a, b) => a.firstName.localeCompare(b.firstName));
@@ -67,7 +67,15 @@ export class CustomerListsComponent implements OnInit {
   onInputChange(event: Event): void {
     this.customers = this.commonService.copyOfCustomers;
     if (this.searchPhone != '') {
-      this.customers = this.customers.filter(i => i.phone.includes(this.searchPhone));
+      if (this.orderStatus == 'Delivered') {
+        this.customers = this.customers.filter(i => i.firstName.toLowerCase().includes(this.searchPhone.toLowerCase()) && i.deliveryStatus == 'yes');
+      } else if (this.orderStatus == 'In-Progress') {
+        this.customers = this.customers.filter(i => i.firstName.toLowerCase().includes(this.searchPhone.toLowerCase()) && i.deliveryStatus == 'no');
+      } else {
+        this.customers = this.customers.filter(i => i.firstName.toLowerCase().includes(this.searchPhone.toLowerCase()));
+      }
+    } else {
+      this.filterData();
     }
   }
 
