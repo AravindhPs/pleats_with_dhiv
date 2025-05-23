@@ -1,0 +1,16 @@
+{
+  "hosting": {
+    "public": "dist/pleats_with_dhiv",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
