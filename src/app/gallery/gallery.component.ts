@@ -9,10 +9,20 @@ import { CommonServiceService } from '../common-service.service';
   styleUrls: ['./gallery.component.css']
 })
 export class GalleryComponent implements OnInit {
-  constructor(public commonService :CommonServiceService){
+  constructor(public commonService: CommonServiceService) {
 
   }
   businessPhotos: { url: string; description: string }[] = [];
+  selectedImage: string | null = null;
+
+  openImageModal(url: string): void {
+    this.selectedImage = url;
+  }
+
+  closeImageModal(): void {
+    this.selectedImage = null;
+  }
+
   @Input() name: string = '';
   ngOnInit(): void {
     const listRef = ref(storage, 'gs://pleatswithdivu.firebasestorage.app/businessPhotos/');
@@ -34,9 +44,9 @@ export class GalleryComponent implements OnInit {
       });
   }
 
-  checkStatus(){
+  checkStatus() {
     let data = {
-      customerRequest : true,
+      customerRequest: true,
       page: 'loadCustomer'
     }
     this.commonService.sendMessage(JSON.stringify(data))

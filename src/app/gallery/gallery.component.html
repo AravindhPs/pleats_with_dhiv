@@ -33,7 +33,14 @@
 
 <div class="gallery-container border">
     <div class="photo-card" *ngFor="let photo of businessPhotos">
-        <img class="gallery-image" [src]="photo.url" [alt]="photo.description" />
+        <img class="gallery-image" [src]="photo.url" [alt]="photo.description" (click)="openImageModal(photo.url)" />
         <div class="caption">{{ photo.description }}</div>
     </div>
+</div>
+
+<div class="image-modal-backdrop" *ngIf="selectedImage" (click)="closeImageModal()">
+  <div class="image-modal-content" (click)="$event.stopPropagation()">
+    <img [src]="selectedImage" alt="Full Image" />
+    <button class="close-btn" (click)="closeImageModal()">×</button>
+  </div>
 </div>
