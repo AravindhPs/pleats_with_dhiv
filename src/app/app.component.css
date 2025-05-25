@@ -28,32 +28,57 @@ img {
   height: 100px;
 }
 
-
-.centre {
-  margin-left: 35%;
-  width: 30%;
-  height: 10%;
-  position: absolute;
-}
-
-.buttonP {
-  position: absolute;
-  margin-left: 67%;
-  margin-top: 1%;
-  background-color: #e0e0e0;
-  color: #333;
-  padding: 10px 16px;
-  font-size: 14px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background 0.3s ease, color 0.3s ease;
-  min-width: 130px;
-}
-
 .border {
   border: 2px solid thistle;
   min-height: 98%;
   margin-left: 1px;
+}
+
+.input-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px;
+}
+
+.centre {
+  padding: 8px 12px;
+  font-size: 1rem;
+  line-height: 1.2;
+  height: 36px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 30%;
+}
+
+
+.buttonP {
+  padding: 8px 20px;
+  font-size: 1rem;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 480px) {
+  .input-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .centre {
+    width: 60%;
+    max-width: none;
+  }
+
+  .buttonP {
+    max-width: none;
+  }
 }

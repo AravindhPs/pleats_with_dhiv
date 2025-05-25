@@ -3,10 +3,16 @@
     <p class="page-title">Pleats With Divu</p>
     <img src="assets/logo.jpg" alt="Logo" class="logo" />
   </div>
-  <div *ngIf="isAdmin && !openAdminPage && !openCustomerPage">
-    <input class="centre" [(ngModel)]="name" type="text" placeholder="Please enter your name..." />
-    <button class="buttonP" (click)="openPages()">Proceed</button>
-  </div>
+ <div *ngIf="isAdmin && !openAdminPage && !openCustomerPage" class="input-container">
+  <input
+    class="centre"
+    [(ngModel)]="name"
+    type="text"
+    placeholder="Please enter your name..."
+  />
+  <button class="buttonP" (click)="openPages()">Proceed</button>
+</div>
+
   <ng-container *ngIf="openAdminPage">
     <div *ngIf="loader" class="loader-overlay">
       <div class="spinner"></div>
