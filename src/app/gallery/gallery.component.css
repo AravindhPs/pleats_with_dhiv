@@ -38,6 +38,31 @@
   border-radius: 8px 8px 0 0;
   display: block;
 }
+
+.btn1, .btn2 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: black;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn1:hover {
+  background-color: #009688;
+}
+
+.btn2:hover{
+  background-color: #d62976;
+}
+
+.btn:hover {
+    background-color: cadetblue;
+}
+
 @media (max-width: 400px) {
   .caption {
     font-size: 0.9rem;

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { storage } from '../../firebase-init';
 import { ref, listAll, getDownloadURL } from 'firebase/storage';
+import { CommonServiceService } from '../common-service.service';
 
 @Component({
   selector: 'app-gallery',
@@ -8,6 +9,9 @@ import { ref, listAll, getDownloadURL } from 'firebase/storage';
   styleUrls: ['./gallery.component.css']
 })
 export class GalleryComponent implements OnInit {
+  constructor(public commonService :CommonServiceService){
+
+  }
   businessPhotos: { url: string; description: string }[] = [];
   @Input() name: string = '';
   ngOnInit(): void {
@@ -30,14 +34,11 @@ export class GalleryComponent implements OnInit {
       });
   }
 
-  openWhatsapp() {
-    const phoneNumber = '+917010195676';
-    const url = `https://wa.me/${phoneNumber.replace('+', '')}`;
-    window.open(url, '_blank');
+  checkStatus(){
+    let data = {
+      customerRequest : true,
+      page: 'loadCustomer'
+    }
+    this.commonService.sendMessage(JSON.stringify(data))
   }
-
-  openInstagram() {
-  const url = 'https://www.instagram.com/pleatswithdivu/';
-  window.open(url, '_blank');
-}
 }

@@ -197,3 +197,49 @@ select:hover {
   }
 }
 
+.header1 {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap; /* for small screen wrapping */
+  margin-bottom: 1rem;
+}
+
+.page-title1 {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.search-input1 {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 250px;
+}
+
+.header-buttons1 {
+  display: flex;
+  gap: 10px;
+}
+
+.btn1, .btn2 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: black;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn1:hover {
+  background-color: #009688;
+}
+
+.btn2:hover{
+  background-color: #d62976;
+}
+
+

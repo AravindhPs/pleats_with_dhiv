@@ -17,7 +17,7 @@
     <div *ngIf="loader" class="loader-overlay">
       <div class="spinner"></div>
     </div>
-    <app-customer-lists *ngIf="loadCustomer"></app-customer-lists>
+    <app-customer-lists [customerRequest] = "customerRequest" *ngIf="loadCustomer"></app-customer-lists>
 
     <app-add-customer *ngIf="isAdd"></app-add-customer>
 

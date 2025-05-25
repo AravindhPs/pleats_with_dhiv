@@ -79,7 +79,7 @@ export class UpdateCustomerComponent implements OnInit {
         customerToSend.expectedDeliveryDate += ','+this.expecteDate;
       }
       this.commonService.newCustomer.dateVisited = this.dateVisited;
-      this.commonService.sendMessage('loader')
+      this.commonService.sendMessage(JSON.stringify('loader'));
       this.customerService.updateCustomer(customerToSend.id as string, customerToSend as any).subscribe({
         next: () => {
           this.commonService.loadAndResetValue();

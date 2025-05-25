@@ -38,7 +38,7 @@ export class CommonServiceService {
   constructor(private customerService: CustomerService) { }
 
   goCustomerList(): void {
-    this.sendMessage('loadCustomer');
+    this.sendMessage(JSON.stringify('loadCustomer'));
   }
 
   getFormattedDateTime(expectedDate?: Date, noTime?: boolean): string {
@@ -87,17 +87,17 @@ export class CommonServiceService {
   }
 
   loadAndResetValue() {
-    this.sendMessage('loadCustomer')
+    this.sendMessage(JSON.stringify('loadCustomer'));
     this.resetNewCustomerValue();
   }
 
   onDeleteCustomer(id: any, firstName: any): void {
     if (confirm(`Are you sure you want to delete customer ${id}?`)) {
-      this.sendMessage("loader");
+      this.sendMessage(JSON.stringify('loader'));
       this.customerService.deleteCustomer(id).subscribe({
         next: () => {
           localStorage.removeItem(firstName);
-          this.sendMessage("loadCustomer");
+         this.sendMessage(JSON.stringify('loadCustomer'));
           this.resetNewCustomerValue();
         },
         error: (err) => {
@@ -106,6 +106,17 @@ export class CommonServiceService {
         }
       });
     }
+  }
+
+   openWhatsapp() {
+    const phoneNumber = '+917010195676';
+    const url = `https://wa.me/${phoneNumber.replace('+', '')}`;
+    window.open(url, '_blank');
+  }
+
+  openInstagram() {
+    const url = 'https://www.instagram.com/pleatswithdivu/';
+    window.open(url, '_blank');
   }
 
   checkValidations(newCustomer?: Customer): boolean {
