@@ -97,7 +97,7 @@ export class CommonServiceService {
       this.customerService.deleteCustomer(id).subscribe({
         next: () => {
           localStorage.removeItem(firstName);
-         this.sendMessage(JSON.stringify('loadCustomer'));
+          this.sendMessage(JSON.stringify('loadCustomer'));
           this.resetNewCustomerValue();
         },
         error: (err) => {
@@ -108,7 +108,7 @@ export class CommonServiceService {
     }
   }
 
-   openWhatsapp() {
+  openWhatsapp() {
     const phoneNumber = '+917010195676';
     const url = `https://wa.me/${phoneNumber.replace('+', '')}`;
     window.open(url, '_blank');
@@ -210,13 +210,16 @@ export class CommonServiceService {
           }
         }
       } else if (!datas.date && customer.deliveryStatus == 'yes') {
-        debugger;
         let data = this.getCountAndStatus(customer, selectedDate, datas.index, true);
         if (data.status !== '') {
           presentIndex++;
           considerCount = true;
           count = data.count;
-          presentName += '\n' + presentIndex + '.' + customer.firstName + ' - ' + count.toString() + ' - ' + data.status + ' is delayed from ' + data.date1 + '\n';;
+          if (data.datas.isPrevious) {
+            presentName += '\n' + presentIndex + '.' + customer.firstName + ' - ' + count.toString() + ' - ' + data.status + ' is delayed from ' + data.date1 + '\n';;
+          } else {
+            presentName += '\n' + presentIndex + '.' + customer.firstName + ' - ' + count.toString() + ' - ' + data.status + ' in advance which is due by ' + data.date1 + '\n';;
+          }
         }
       }
       if (data.isToday || customer.deliveryStatus == 'no') {
@@ -331,11 +334,19 @@ export class CommonServiceService {
       dateVisit.forEach((deliveryCheck, i, obj) => {
         if ((i + 1) % 2 == 0) {
           let takeDate = deliveryCheck.split('\n\n')[1].split(' ')[0];
+          let day = takeDate.split('-')[0];
+          let month = takeDate.split('-')[1];
+          let year = takeDate.split('-')[2];
+          takeDate = month + '-' + day + '-' + year;
           let data = this.checkExpectedHasSelectedDate(takeDate, selectedDate, i);
           if (data.isDateAvailable) {
             status = obj[i].split('- ')[1]
             lastArrayData = obj[i - 1];
             date = dateVisit[i].split('- ')[0].split(' ')[0].split(',')[0].split('\n\n')[1];
+            let day = date.split('-')[0];
+            let month = date.split('-')[1];
+            let year = date.split('-')[2];
+            date = month + '-' + day + '-' + year;
             let checkWithExpected = this.compareDates(customer.expectedDeliveryDate.split(',')[i - 1], selectedDate);
             if (checkWithExpected.isToday) {
               datas = this.compareDates(date, selectedDate);

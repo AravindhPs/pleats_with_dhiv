@@ -3,7 +3,7 @@
     flex-wrap: wrap; 
     justify-content: space-between; 
     align-items: center; 
-    margin: 20px 5% 100px 5%;
+    margin: 20px 5%;
     row-gap: 10px;
   ">
     <h1 style="margin: 0; flex: 1 1 100%; font-size: 1.8rem;">Welcome {{name}},</h1>
@@ -15,32 +15,39 @@
       justify-content: flex-end; 
       flex-wrap: wrap;
     ">
-        <button (click)="checkStatus()" class="btn" style="display: flex; align-items: center; gap: 6px;"> Already
-            booked? Check your status
-        </button>
+        <div class="header-buttons1">
+            <button (click)="checkStatus()" class="btn" style="background-color:cadetblue;display: flex; align-items: center; gap: 6px;"> Already
+                booked? Check your status
+            </button>
 
-        <button (click)="commonService.openWhatsapp()" class="btn1" style="display: flex; align-items: center; gap: 6px;">
-            <img src="https://img.icons8.com/color/24/000000/whatsapp--v1.png" alt="WhatsApp" />
-            Book in WhatsApp
-        </button>
+            <button (click)="commonService.openWhatsapp()" class="btn1">
+                <img src="https://img.icons8.com/color/24/000000/whatsapp--v1.png" alt="WhatsApp" />
+                Book in WhatsApp
+            </button>
 
-        <button (click)="commonService.openInstagram()" class="btn2" style="display: flex; align-items: center; gap: 6px;">
-            <img src="https://img.icons8.com/fluency/24/instagram-new.png" alt="Instagram" />
-            Instagram
-        </button>
+            <button (click)="commonService.openInstagram()" class="btn2">
+                <img src="https://img.icons8.com/fluency/24/instagram-new.png" alt="Instagram" />
+                Instagram
+            </button>
+
+            <button class="review-button" (click)="openGoogleReview()">
+                <span class="material-icons">rate_review</span>
+                Leave a Review
+            </button>
+        </div>
     </div>
-</div>
 
-<div class="gallery-container border">
-    <div class="photo-card" *ngFor="let photo of businessPhotos">
-        <img class="gallery-image" [src]="photo.url" [alt]="photo.description" (click)="openImageModal(photo.url)" />
-        <div class="caption">{{ photo.description }}</div>
+    <div class="gallery-container border">
+        <div class="photo-card" *ngFor="let photo of businessPhotos">
+            <img class="gallery-image" [src]="photo.url" [alt]="photo.description"
+                (click)="openImageModal(photo.url)" />
+            <div class="caption">{{ photo.description }}</div>
+        </div>
     </div>
-</div>
 
-<div class="image-modal-backdrop" *ngIf="selectedImage" (click)="closeImageModal()">
-  <div class="image-modal-content" (click)="$event.stopPropagation()">
-    <img [src]="selectedImage" alt="Full Image" />
-    <button class="close-btn" (click)="closeImageModal()">×</button>
-  </div>
-</div>
+    <div class="image-modal-backdrop" *ngIf="selectedImage" (click)="closeImageModal()">
+        <div class="image-modal-content" (click)="$event.stopPropagation()">
+            <img [src]="selectedImage" alt="Full Image" />
+            <button class="close-btn" (click)="closeImageModal()">×</button>
+        </div>
+    </div>

@@ -56,29 +56,28 @@
 </div>
 
 <div *ngIf="customerRequest">
-  <div class="header1">
-  <span class="page-title1">Search Customer</span>
-
-  <input
-    class="search-input1"
-    (input)="onInputChange('phone')"
-    [(ngModel)]="searchPhone"
-    id="inputSearch"
-    placeholder="Type your full phone number..."
-  />
-
   <div class="header-buttons1">
-    <button (click)="commonService.openWhatsapp()" class="btn1">
-      <img src="https://img.icons8.com/color/24/000000/whatsapp--v1.png" alt="WhatsApp" />
-      Book again in WhatsApp
-    </button>
+      <button (click)="commonService.openWhatsapp()" class="btn1">
+        <img src="https://img.icons8.com/color/24/000000/whatsapp--v1.png" alt="WhatsApp" />
+        Book again in WhatsApp
+      </button>
 
-    <button (click)="commonService.openInstagram()" class="btn2">
-      <img src="https://img.icons8.com/fluency/24/instagram-new.png" alt="Instagram" />
-      Instagram
-    </button>
+      <button (click)="commonService.openInstagram()" class="btn2">
+        <img src="https://img.icons8.com/fluency/24/instagram-new.png" alt="Instagram" />
+        Instagram
+      </button>
+
+      <button class="review-button" (click)="openGoogleReview()">
+        <span class="material-icons">rate_review</span>
+        Leave a Review
+      </button>
+    </div>
+  <div class="header1">
+    <span class="page-title1">Know your status</span>
+
+    <input class="search-input1" (input)="onInputChange('phone')" [(ngModel)]="searchPhone" id="inputSearch"
+      placeholder="Type your full phone number..." />
   </div>
-</div>
 
   <ul *ngIf="searchPhone.length == 10 && !isLoading && !error && customers" class="customer-list">
     <li *ngFor="let customer of customers; let k = index" class="customer-item">
@@ -106,4 +105,5 @@
 
 
   <p *ngIf="!isLoading && !error && customers.length === 0 && !customerRequest">No customers found.</p>
-  <p *ngIf="!isLoading && !error && customerRequest && searchPhone.length != 10">No customers found.</p>
+  <p *ngIf="!isLoading && !error && customers.length === 0 && customerRequest && searchPhone.length != 10">No customers
+    found.</p>
