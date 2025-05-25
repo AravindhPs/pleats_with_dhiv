@@ -126,31 +126,45 @@ export class CommonServiceService {
   }
 
   compareDates(selectedDate: string, date: string) {
+
     const result = {
       isToday: false,
       isPrevious: false,
       isFuture: false
     };
+    let w = '';
+    if (selectedDate) {
+      let day = '', month = '', year = '';
+      let convert = new Date(selectedDate).toString();
+      if (convert == 'Invalid Date') {
+        day = selectedDate.split('-')[0];
+        month = selectedDate.split('-')[1];
+        year = selectedDate.split('-')[2];
+      } else {
+        day = new Date(selectedDate).getDate().toString();
+        month = (new Date(selectedDate).getMonth() + 1).toString();
+        year = new Date(selectedDate).getFullYear().toString();
+      }
+      w = month + '-' + day + '-' + year;
 
-    const d1 = new Date(selectedDate);
-    const d2 = new Date(date);
-    const normalizedD1 = new Date(d1.getFullYear(), d1.getMonth(), d1.getDate());
-    const normalizedD2 = new Date(d2.getFullYear(), d2.getMonth(), d2.getDate());
+      const d1 = new Date(w);
+      const d2 = new Date(date);
+      const normalizedD1 = new Date(d1.getFullYear(), d1.getMonth(), d1.getDate());
+      const normalizedD2 = new Date(d2.getFullYear(), d2.getMonth(), d2.getDate());
 
-    const time1 = normalizedD1.getTime();
-    const time2 = normalizedD2.getTime();
+      const time1 = normalizedD1.getTime();
+      const time2 = normalizedD2.getTime();
 
-    if (time1 === time2) {
-      result.isToday = true;
-    } else if (time1 < time2) {
-      result.isPrevious = true;
-    } else {
-      result.isFuture = true;
+      if (time1 === time2) {
+        result.isToday = true;
+      } else if (time1 < time2) {
+        result.isPrevious = true;
+      } else {
+        result.isFuture = true;
+      }
     }
-
     return result;
   }
-
 
   onDateSelected(selectedDate: string, type: string) {
     let considerCount = false, considerPreviousCount = false;
@@ -168,29 +182,62 @@ export class CommonServiceService {
         }
       })
       let data = this.compareDates(datas.date ? datas.date : customer.expectedDeliveryDate, selectedDate);
+      if (!datas.date && expectedDate.length > 1 && customer.deliveryStatus == 'no') {
+        let data = this.getCountAndStatus(customer, selectedDate, datas.index, true);
+        if (data.status !== '') {
+          if (data.datas.isFuture) {
+            debugger;
+            pastIndex++;
+            considerPreviousCount = true;
+            previousCount = data.count;
+            pastName += '\n' + pastIndex + '.' + customer.firstName + ' - ' + previousCount.toString() + ' - ' + data.status + ' in advance which is due by ' + data.date1 + '\n';
+          } else {
+            presentIndex++;
+            considerCount = true;
+            count = data.count;
+            presentName += '\n' + presentIndex + '.' + customer.firstName + ' - ' + count.toString() + ' - ' + data.status + ' in advance which is due by ' + data.date1 + '\n';;
+          }
+        }
+      } else if (!datas.date && customer.deliveryStatus == 'yes') {
+        debugger;
+        let data = this.getCountAndStatus(customer, selectedDate, datas.index, true);
+        if (data.status !== '') {
+          presentIndex++;
+          considerCount = true;
+          count = data.count;
+          presentName += '\n' + presentIndex + '.' + customer.firstName + ' - ' + count.toString() + ' - ' + data.status + ' is delayed from ' + data.date1 + '\n';;
+        }
+      }
       if (data.isToday || customer.deliveryStatus == 'no') {
         if (isPrevious && !data.isFuture && data.isToday) {
           pastIndex++;
           considerPreviousCount = true;
-          let data = this.getCountAndStatus(customer, selectedDate, datas.index);
+          let data = this.getCountAndStatus(customer, selectedDate, datas.index, false);
           previousCount = data.count;
           let status = data.status == 'Delivered' || customer.deliveryStatus == 'yes' ? 'Delivered' : 'In-Progress';
-          pastName += '\n' + pastIndex + '.' + customer.firstName + ' - ' + previousCount.toString() + ' - ' + status + '\n';
+          if (data.datas.isPrevious) {
+            pastName += '\n' + pastIndex + '.' + customer.firstName + ' - ' + previousCount.toString() + '- has already been delivered on ' + data.date1 + '\n';;
+          } else {
+            pastName += '\n' + pastIndex + '.' + customer.firstName + ' - ' + previousCount.toString() + ' - ' + status + '\n';
+          }
         } else {
           if (customer.deliveryStatus == 'no' && data.isPrevious && !isFuture && isToday) {
             pastIndex++;
             considerPreviousCount = true;
-            let data = this.getCountAndStatus(customer, selectedDate, datas.index);
+            let data = this.getCountAndStatus(customer, selectedDate, datas.index, false);
             previousCount = data.count;
             pastName += '\n' + pastIndex + '.' + customer.firstName + ' - ' + previousCount.toString() + ' - pending from ' + this.getFormattedDateTime(new Date(customer.expectedDeliveryDate), true) + '\n';
           } else {
             if (data.isToday) {
               presentIndex++;
               considerCount = true;
-              let data = this.getCountAndStatus(customer, selectedDate, datas.index);
+              let data = this.getCountAndStatus(customer, selectedDate, datas.index, false);
               count = data.count;
               let status = data.status == 'Delivered' || customer.deliveryStatus == 'yes' ? 'Delivered' : 'In-Progress';
-              if (customer.deliveryStatus == 'yes' || status == 'Delivered') {
+              if ((customer.deliveryStatus == 'yes' || status == 'Delivered') && data.datas.isPrevious) {
+                presentName += '\n' + presentIndex + '.' + customer.firstName + ' - ' + count.toString() + '- has already been delivered on ' + data.date1 + '\n';;
+              }
+              else if (customer.deliveryStatus == 'yes' || status == 'Delivered') {
                 presentName += '\n' + presentIndex + '.' + customer.firstName + ' - ' + count.toString() + ' - ' + status + '\n';;
               } else {
                 presentName += '\n' + presentIndex + '.' + customer.firstName + ' - ' + count.toString() + '\n';
@@ -237,11 +284,19 @@ export class CommonServiceService {
 
     return type == 'list' ? this.dateToDeliver = finalMessage : this.isDatePossible = finalMessage;
   }
+
   checkExpectedHasSelectedDate(expectedDate: string, selectedDate: string, index: number) {
     let day = '', month = '', year = '';
-    day = expectedDate.split('-')[0];
-    month = expectedDate.split('-')[1];
-    year = expectedDate.split('-')[2];
+    let convert = new Date(expectedDate).toString();
+    if (convert == 'Invalid Date') {
+      day = expectedDate.split('-')[0];
+      month = expectedDate.split('-')[1];
+      year = expectedDate.split('-')[2];
+    } else {
+      day = new Date(expectedDate).getDate().toString();
+      month = (new Date(expectedDate).getMonth() + 1).toString();
+      year = new Date(expectedDate).getFullYear().toString();
+    }
     expectedDate = month + '-' + day + '-' + year;
     let expect = new Date(expectedDate);
     let select = new Date(selectedDate);
@@ -249,28 +304,39 @@ export class CommonServiceService {
     return { isDateAvailable: check, date: expectedDate, index: index };
   }
 
-  getCountAndStatus(customer: Customer, selectedDate: string, index: number) {
+  getCountAndStatus(customer: Customer, selectedDate: string, index: number, checkToday: boolean) {
     let dateVisit = customer.dateVisited.split(',');
-    let lastArrayData = '', status = '';
-    if (customer.deliveryStatus == 'no') {
+    let lastArrayData = '', status = '', date = '', datas: any = {};
+    if (customer.deliveryStatus == 'no' && !checkToday) {
       if (index != undefined && index.toString() != '-1' && dateVisit[index + index + 1] !== undefined) {
         lastArrayData = dateVisit[index + index];
         status = dateVisit[index + index + 1].split('- ')[1];
+        date = dateVisit[index + index + 1].split('- ')[0].split(' ')[0].split(',')[0].split('\n\n')[1];
+        datas = this.compareDates(date, selectedDate);
       } else {
         lastArrayData = dateVisit[dateVisit.length - 1]
       }
     } else {
       dateVisit.forEach((deliveryCheck, i, obj) => {
         if ((i + 1) % 2 == 0) {
-          let takeDate = Number(deliveryCheck.split('-')[0])
-          if (new Date(selectedDate).getDate() == takeDate) {
+          let takeDate = deliveryCheck.split('\n\n')[1].split(' ')[0];
+          let data = this.checkExpectedHasSelectedDate(takeDate, selectedDate, i);
+          if (data.isDateAvailable) {
             status = obj[i].split('- ')[1]
             lastArrayData = obj[i - 1];
+            date = dateVisit[i].split('- ')[0].split(' ')[0].split(',')[0].split('\n\n')[1];
+            let checkWithExpected = this.compareDates(customer.expectedDeliveryDate.split(',')[i - 1], selectedDate);
+            if (checkWithExpected.isToday) {
+              datas = this.compareDates(date, selectedDate);
+            } else if (checkWithExpected.isFuture || checkWithExpected.isPrevious) {
+              date = customer.expectedDeliveryDate.split(',')[i - 1];
+              datas = this.compareDates(date, customer.expectedDeliveryDate.split(',')[i - 1]);
+            }
           }
         }
       })
     }
     let takeLastSareeCount = lastArrayData.split(': ')[1]
-    return { count: Number(takeLastSareeCount), status: status }
+    return { count: Number(takeLastSareeCount), status: status, datas: datas, date1: date }
   }
 }

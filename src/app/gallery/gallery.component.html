@@ -1,0 +1,56 @@
+<div 
+  style="
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin: 20px 5% 100px 5%;
+    row-gap: 10px;
+  "
+>
+  <h1 style="margin: 0; flex: 1 1 100%; font-size: 1.8rem;">Welcome {{name}},</h1>
+
+  <div 
+    style="
+      display: flex; 
+      gap: 10px; 
+      flex: 1 1 100%; 
+      justify-content: flex-end; 
+      flex-wrap: wrap;
+    "
+  >
+    <button 
+      (click)="openWhatsapp()" 
+      class="btn" 
+      style="display: flex; align-items: center; gap: 6px;"
+    >
+      <img 
+        src="https://img.icons8.com/color/24/000000/whatsapp--v1.png" 
+        alt="WhatsApp" 
+      />
+      Book in WhatsApp
+    </button>
+    
+    <button 
+      (click)="openInstagram()" 
+      class="btn" 
+      style="display: flex; align-items: center; gap: 6px;"
+    >
+      <img 
+        src="https://img.icons8.com/fluency/24/instagram-new.png" 
+        alt="Instagram" 
+      />
+      Instagram
+    </button>
+  </div>
+</div>
+
+
+
+
+<div class="gallery-container border">
+    <div class="photo-card" *ngFor="let photo of businessPhotos">
+        <img class="gallery-image" [src]="photo.url" [alt]="photo.description" />
+        <div class="caption">{{ photo.description }}</div>
+    </div>
+</div>

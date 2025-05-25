@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonServiceService } from '../common-service.service';
 import { Customer, CustomerService } from '../customer.service';
-import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-customer-lists',
   templateUrl: './customer-lists.component.html',
@@ -14,7 +13,6 @@ export class CustomerListsComponent implements OnInit {
   customers: Customer[] = [];
   selectedDate: Date = new Date();
   orderStatus: string = 'Show Both';
-  hideButton = environment.showDevButtons;
 
   constructor(public commonService: CommonServiceService, private customerService: CustomerService) {
 
@@ -42,7 +40,6 @@ export class CustomerListsComponent implements OnInit {
       next: (data) => {
         this.customers = data;
         this.customers.forEach((customer: Customer, i) => {
-          console.log(i + 1 + '.  ' + JSON.stringify(customer));
           customer.measurements = JSON.parse(customer.measurements as any);
         })
         this.customers.sort((a, b) => a.firstName.localeCompare(b.firstName));
