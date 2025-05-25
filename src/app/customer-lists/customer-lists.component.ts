@@ -64,6 +64,7 @@ export class CustomerListsComponent implements OnInit {
 
   onInputChange(isphone?: string): void {
     if (isphone && isphone != '') {
+      this.customers = [];
       if (this.searchPhone.length == 10) {
         this.customers = this.commonService.copyOfCustomers;
         this.customers = this.customers.filter(i => i.phone.toLowerCase().includes(this.searchPhone.toLowerCase()));
