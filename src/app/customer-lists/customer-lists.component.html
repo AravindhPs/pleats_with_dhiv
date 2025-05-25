@@ -105,4 +105,5 @@
   </ul>
 
 
-  <p *ngIf="!isLoading && !error && customers.length === 0">No customers found.</p>
+  <p *ngIf="!isLoading && !error && customers.length === 0 && !customerRequest">No customers found.</p>
+  <p *ngIf="!isLoading && !error && customerRequest && searchPhone.length != 10">No customers found.</p>
