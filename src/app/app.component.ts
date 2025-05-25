@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
   isAdmin: boolean = true;
   openAdminPage: boolean = false;
   openCustomerPage: boolean = false;
+  customerRequest: boolean = false;
 
   constructor(private commonService: CommonServiceService) { }
 
@@ -28,16 +29,25 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.commonService.message$.subscribe(res => {
+    this.commonService.message$.subscribe((res: any) => {
       this.loadCustomer = this.isAdd = this.isUpdate = this.loader = false;
-      if (res == 'loadCustomer') {
+      res = JSON.parse(res);
+      if (res.customerRequest) {
+        this.isAdmin = false;
+        this.openCustomerPage = false;
+        this.openAdminPage = true;
         this.loadCustomer = true;
-      } else if (res == 'edit') {
-        this.isUpdate = true;
-      } else if (res == 'add') {
-        this.isAdd = true;
+        this.customerRequest = true;
       } else {
-        this.loader = true;
+        if (res == 'loadCustomer') {
+          this.loadCustomer = true;
+        } else if (res == 'edit') {
+          this.isUpdate = true;
+        } else if (res == 'add') {
+          this.isAdd = true;
+        } else {
+          this.loader = true;
+        }
       }
     })
   }

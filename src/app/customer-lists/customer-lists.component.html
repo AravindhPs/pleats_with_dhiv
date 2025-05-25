@@ -1,10 +1,10 @@
 <div *ngIf="error" style="color: red;">Error: {{ error }}</div>
-<div class="page-wrapper">
+<div *ngIf="!customerRequest" class="page-wrapper">
   <!-- Left: Customer List -->
   <div class="left-section">
     <div class="header">
       <span class="page-title">Customer List</span>
-      <input class="search-input" (input)="onInputChange($event)" [(ngModel)]="searchPhone" id="inputSearch"
+      <input class="search-input" (input)="onInputChange('')" [(ngModel)]="searchPhone" id="inputSearch"
         placeholder="Search Customer by name..." />
       <select (change)="filterData()" [(ngModel)]="orderStatus">
         <option value="Show Both">Show Both <span *ngIf="orderStatus == 'Show Both'">- {{customers.length}}</span>
@@ -14,7 +14,7 @@
         <option value="In-Progress">In-Progress <span *ngIf="orderStatus == 'In-Progress'">- {{customers.length}}</span>
         </option>
       </select>
-      <button  class="add-customer-btn" (click)="activateButton()">Add Customer</button>
+      <button class="add-customer-btn" (click)="activateButton()">Add Customer</button>
     </div>
 
     <ul *ngIf="!isLoading && !error && customers" class="customer-list">
@@ -28,8 +28,8 @@
               == 'yes' ? 'Delivered' : 'In-Progress'}}</span>
           </div>
           <div class="button-group">
-            <button  class="action-btn edit-btn" (click)="onEditCustomer(customer)">✎</button>
-            <button  class="action-btn delete-btn"
+            <button class="action-btn edit-btn" (click)="onEditCustomer(customer)">✎</button>
+            <button class="action-btn delete-btn"
               (click)="commonService.onDeleteCustomer(customer.id, customer.firstName)">🗑️</button>
           </div>
         </div>
@@ -49,10 +49,60 @@
 
   <!-- Right: Calendar -->
   <div class="right-section">
-    <mat-calendar [(selected)]="selectedDate" (selectedChange)="commonService.onDateSelected(selectedDate.toString(), 'list')"></mat-calendar>
+    <mat-calendar [(selected)]="selectedDate"
+      (selectedChange)="commonService.onDateSelected(selectedDate.toString(), 'list')"></mat-calendar>
     <textarea class="text-area" type="text" [value]="commonService.dateToDeliver"></textarea>
   </div>
 </div>
 
+<div *ngIf="customerRequest">
+  <div class="header1">
+  <span class="page-title1">Search Customer</span>
 
-<p *ngIf="!isLoading && !error && customers.length === 0">No customers found.</p>
+  <input
+    class="search-input1"
+    (input)="onInputChange('phone')"
+    [(ngModel)]="searchPhone"
+    id="inputSearch"
+    placeholder="Type your full phone number..."
+  />
+
+  <div class="header-buttons1">
+    <button (click)="commonService.openWhatsapp()" class="btn1">
+      <img src="https://img.icons8.com/color/24/000000/whatsapp--v1.png" alt="WhatsApp" />
+      Book again in WhatsApp
+    </button>
+
+    <button (click)="commonService.openInstagram()" class="btn2">
+      <img src="https://img.icons8.com/fluency/24/instagram-new.png" alt="Instagram" />
+      Instagram
+    </button>
+  </div>
+</div>
+
+  <ul *ngIf="searchPhone.length == 10 && !isLoading && !error && customers" class="customer-list">
+    <li *ngFor="let customer of customers; let k = index" class="customer-item">
+      <div class="customer-header">
+        <div class="customer-info">
+          <span>{{ k + 1 }}</span>. <span class="capitalize">{{ customer.firstName }} </span> {{ customer.lastName }}
+          -
+          ({{ customer.email }}, {{ customer.phone }}) - <span
+            [ngClass]="customer.deliveryStatus == 'yes' ? 'status-delivered' : 'status-inprogress'">{{customer.deliveryStatus
+            == 'yes' ? 'Delivered' : 'In-Progress'}}</span>
+        </div>
+      </div>
+
+      <div class="measurements-wrapper">
+        <div class="measurements">
+          <span><strong>Pallu length:</strong> {{ customer.measurements.palluLength }}</span>
+          <span><strong>Hip 1:</strong> {{ customer.measurements.Hip1 }}</span>
+          <span><strong>Hip 2:</strong> {{ customer.measurements.Hip2 }}</span>
+          <span><strong>B Size:</strong> {{ customer.measurements.bSize }}</span>
+          <span class="notes-input"><strong>Notes:</strong> {{ customer.measurements.notes }}</span>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+
+  <p *ngIf="!isLoading && !error && customers.length === 0">No customers found.</p>

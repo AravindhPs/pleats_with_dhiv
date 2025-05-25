@@ -56,7 +56,7 @@ export class AddCustomerComponent implements OnInit {
 
   onSubmitNewCustomer(): void {
     if (this.commonService.checkValidations(this.newCustomer)) {
-      this.commonService.sendMessage('loader')
+      this.commonService.sendMessage(JSON.stringify('loader'));
       this.newCustomer.id = this.newCustomer.firstName + '_' + this.newCustomer.phone.substring(0, 5);
       const customerToSend = {
         ...this.newCustomer,

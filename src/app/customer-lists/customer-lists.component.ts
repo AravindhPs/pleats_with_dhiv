@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonServiceService } from '../common-service.service';
 import { Customer, CustomerService } from '../customer.service';
 @Component({
@@ -13,6 +13,7 @@ export class CustomerListsComponent implements OnInit {
   customers: Customer[] = [];
   selectedDate: Date = new Date();
   orderStatus: string = 'Show Both';
+  @Input() customerRequest: boolean = false;
 
   constructor(public commonService: CommonServiceService, private customerService: CustomerService) {
 
@@ -58,26 +59,33 @@ export class CustomerListsComponent implements OnInit {
 
   activateButton() {
     this.commonService.resetNewCustomerValue();
-    this.commonService.sendMessage('add');
+    this.commonService.sendMessage(JSON.stringify('add'));
   }
 
-  onInputChange(event: Event): void {
-    this.customers = this.commonService.copyOfCustomers;
-    if (this.searchPhone != '') {
-      if (this.orderStatus == 'Delivered') {
-        this.customers = this.customers.filter(i => i.firstName.toLowerCase().includes(this.searchPhone.toLowerCase()) && i.deliveryStatus == 'yes');
-      } else if (this.orderStatus == 'In-Progress') {
-        this.customers = this.customers.filter(i => i.firstName.toLowerCase().includes(this.searchPhone.toLowerCase()) && i.deliveryStatus == 'no');
-      } else {
-        this.customers = this.customers.filter(i => i.firstName.toLowerCase().includes(this.searchPhone.toLowerCase()));
+  onInputChange(isphone?: string): void {
+    if (isphone && isphone != '') {
+      if (this.searchPhone.length == 10) {
+        this.customers = this.commonService.copyOfCustomers;
+        this.customers = this.customers.filter(i => i.phone.toLowerCase().includes(this.searchPhone.toLowerCase()));
       }
     } else {
-      this.filterData();
+      this.customers = this.commonService.copyOfCustomers;
+      if (this.searchPhone != '') {
+        if (this.orderStatus == 'Delivered') {
+          this.customers = this.customers.filter(i => i.firstName.toLowerCase().includes(this.searchPhone.toLowerCase()) && i.deliveryStatus == 'yes');
+        } else if (this.orderStatus == 'In-Progress') {
+          this.customers = this.customers.filter(i => i.firstName.toLowerCase().includes(this.searchPhone.toLowerCase()) && i.deliveryStatus == 'no');
+        } else {
+          this.customers = this.customers.filter(i => i.firstName.toLowerCase().includes(this.searchPhone.toLowerCase()));
+        }
+      } else {
+        this.filterData();
+      }
     }
   }
 
   onEditCustomer(customer: Customer): void {
-    this.commonService.sendMessage('edit');
+   this.commonService.sendMessage(JSON.stringify('edit'));
     this.commonService.newCustomer = customer;
   }
 
