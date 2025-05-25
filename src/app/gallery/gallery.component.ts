@@ -34,7 +34,7 @@ export class GalleryComponent implements OnInit {
             const fileName = itemRef.name.split('.')[0].replace(/[-_]/g, ' ');
             this.businessPhotos.push({
               url,
-              description: 'Pre-pleat'
+              description: this.shorten(fileName)
             });
           });
         });
@@ -42,6 +42,15 @@ export class GalleryComponent implements OnInit {
       .catch(error => {
         console.error('Error fetching images:', error);
       });
+  }
+
+  openGoogleReview(): void {
+    window.open('https://g.page/r/CY2Ajw0rWrkUEBM/review', '_blank');
+  }
+
+
+  shorten(text: string): string {
+    return text.split(' ').slice(0, 3).join(' ');
   }
 
   checkStatus() {

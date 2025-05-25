@@ -33,6 +33,11 @@ export class CustomerListsComponent implements OnInit {
     }
   }
 
+  openGoogleReview(): void {
+    window.open('https://g.page/r/CY2Ajw0rWrkUEBM/review', '_blank');
+  }
+
+
   loadCustomers(): void {
     this.searchPhone = '';
     this.isLoading = true;
