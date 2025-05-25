@@ -22,3 +22,12 @@
   padding: 10px;
   font-weight: bold;
 }
+
+.gallery-image {
+  width: 200px;        /* Set desired width */
+  height: 200px;       /* Set desired height */
+  object-fit: cover;   /* Ensures image fills the box without distortion */
+  border-radius: 8px;  /* Optional: rounded corners */
+  margin: 8px;         /* Optional: spacing between images */
+}
+

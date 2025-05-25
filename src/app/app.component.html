@@ -19,9 +19,6 @@
   </ng-container>
 
   <ng-container *ngIf="openCustomerPage">
-    <strong>
-      <h1 style="margin-left:5%">Welcome {{name}},</h1>
-    </strong>
-   <app-gallery></app-gallery>
+   <app-gallery [name]="name"></app-gallery>
   </ng-container>
 </div>

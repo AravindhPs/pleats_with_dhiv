@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { getStorage, ref, listAll, getDownloadURL } from 'firebase/storage';
+import { Component, Input, OnInit } from '@angular/core';
+import { storage } from '../../firebase-init';
+import { ref, listAll, getDownloadURL } from 'firebase/storage';
 
 @Component({
   selector: 'app-gallery',
@@ -8,10 +9,9 @@ import { getStorage, ref, listAll, getDownloadURL } from 'firebase/storage';
 })
 export class GalleryComponent implements OnInit {
   businessPhotos: { url: string; description: string }[] = [];
-
+  @Input() name: string = '';
   ngOnInit(): void {
-    const storage = getStorage();
-    const listRef = ref(storage, 'business-photos/');
+    const listRef = ref(storage, 'gs://pleatswithdivu.firebasestorage.app/businessPhotos/');
 
     listAll(listRef)
       .then(result => {
@@ -20,7 +20,7 @@ export class GalleryComponent implements OnInit {
             const fileName = itemRef.name.split('.')[0].replace(/[-_]/g, ' ');
             this.businessPhotos.push({
               url,
-              description: this.shorten(fileName)
+              description: 'Pre-pleat'
             });
           });
         });
@@ -30,7 +30,14 @@ export class GalleryComponent implements OnInit {
       });
   }
 
-  shorten(text: string): string {
-    return text.split(' ').slice(0, 3).join(' '); // Max 3 words
+  openWhatsapp() {
+    const phoneNumber = '+917010195676';
+    const url = `https://wa.me/${phoneNumber.replace('+', '')}`;
+    window.open(url, '_blank');
   }
+
+  openInstagram() {
+  const url = 'https://www.instagram.com/pleatswithdivu/';
+  window.open(url, '_blank');
+}
 }

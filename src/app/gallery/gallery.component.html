@@ -1,6 +1,24 @@
-<div class="gallery-container">
+<div style="display: flex; justify-content: space-between; align-items: center; margin: 20px 5% 100px 5%;">
+  <h1 style="margin: 0;">Welcome {{name}},</h1>
+
+  <div style="display: flex; gap: 10px;">
+    <button (click)="openWhatsapp()" class="btn" style="display: flex; align-items: center; gap: 6px;">
+      <img src="https://img.icons8.com/color/24/000000/whatsapp--v1.png" alt="WhatsApp" />
+      Book in WhatsApp
+    </button>
+    
+    <button (click)="openInstagram()" class="btn" style="display: flex; align-items: center; gap: 6px;">
+      <img src="https://img.icons8.com/fluency/24/instagram-new.png" alt="Instagram" />
+      Instagram
+    </button>
+  </div>
+</div>
+
+
+
+<div class="gallery-container border">
     <div class="photo-card" *ngFor="let photo of businessPhotos">
-        <img [src]="photo.url" [alt]="photo.description" />
+        <img class="gallery-image" [src]="photo.url" [alt]="photo.description" />
         <div class="caption">{{ photo.description }}</div>
     </div>
 </div>

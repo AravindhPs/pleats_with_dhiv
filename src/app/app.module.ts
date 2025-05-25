@@ -17,8 +17,8 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GalleryComponent } from './gallery/gallery.component';
 
-import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { provideStorage, getStorage } from '@angular/fire/storage';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { environment } from '../environments/environment';
 
 @NgModule({
@@ -39,11 +39,11 @@ import { environment } from '../environments/environment';
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireStorageModule
   ],
    providers: [
-    CustomerService,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideStorage(() => getStorage())
+    CustomerService
   ],
   bootstrap: [AppComponent]
 })
