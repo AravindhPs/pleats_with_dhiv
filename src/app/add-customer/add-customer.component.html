@@ -54,6 +54,10 @@
        <textarea style="margin-left:1%" class="textarea" type="text" [value]="commonService.isDatePossible"></textarea>
     </div>
 
+     <div class="form-group">
+        <input [(ngModel)]="newCustomer.dateVisited" placeholder="Date Visited" />
+    </div>
+
     <div class="button-group1">
         <button class="btn update" (click)="onSubmitNewCustomer()">Add Customer</button>
         <button class="btn cancel" (click)="commonService.goCustomerList()">Cancel</button>

@@ -6,7 +6,7 @@
   gap: 15px;
   /* Space between image and text */
   margin: 30px 0;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .logo {
@@ -28,7 +28,32 @@ img {
   height: 100px;
 }
 
+
+.centre {
+  margin-left: 35%;
+  width: 30%;
+  height: 10%;
+  position: absolute;
+}
+
+.buttonP {
+  position: absolute;
+  margin-left: 67%;
+  margin-top: 1%;
+  background-color: #e0e0e0;
+  color: #333;
+   padding: 10px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s ease, color 0.3s ease;
+    min-width: 130px;
+}
+
 .border {
   border: 2px solid thistle;
-  margin-left:1px;
+  min-height: 98%;
+  margin-left: 1px;
 }

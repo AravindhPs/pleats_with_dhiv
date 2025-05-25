@@ -1,0 +1,6 @@
+<div class="gallery-container">
+    <div class="photo-card" *ngFor="let photo of businessPhotos">
+        <img [src]="photo.url" [alt]="photo.description" />
+        <div class="caption">{{ photo.description }}</div>
+    </div>
+</div>

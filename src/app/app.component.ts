@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Customer, CustomerMeasurement, CustomerService } from './customer.service'; // Adjust path
 import { CommonServiceService } from './common-service.service';
 
 @Component({
@@ -13,8 +12,20 @@ export class AppComponent implements OnInit {
   isAdd: boolean = false;
   isUpdate: boolean = false;
   loadCustomer: boolean = true;
+  name: string = '';
+  isAdmin : boolean = true;
+  openAdminPage: boolean = false;
+  openCustomerPage: boolean = false;
   
   constructor(private commonService: CommonServiceService) { }
+
+  openPages(){
+    if(this.name.toLowerCase() == 'a3d'){
+      this.openAdminPage = true;
+    } else{
+      this.openCustomerPage = true;
+    }
+  }
 
   ngOnInit(): void {
     this.commonService.message$.subscribe(res=>{

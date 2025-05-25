@@ -1,15 +1,27 @@
 <div class="border">
-<div (click)="goToCustomerList()" class="title-container">
-  <p class="page-title">Pleats With Divu</p>
-  <img src="assets/logo.jpg" alt="Logo" class="logo" />
-</div>
-<div *ngIf="loader" class="loader-overlay">
-  <div class="spinner"></div>
-</div>
-<app-customer-lists *ngIf="loadCustomer"></app-customer-lists>
+  <div (click)="goToCustomerList()" class="title-container">
+    <p class="page-title">Pleats With Divu</p>
+    <img src="assets/logo.jpg" alt="Logo" class="logo" />
+  </div>
+  <div *ngIf="isAdmin && !openAdminPage && !openCustomerPage">
+    <input class="centre" [(ngModel)]="name" type="text" placeholder="Please enter your name..." />
+    <button class="buttonP" (click)="openPages()">Proceed</button>
+  </div>
+  <ng-container *ngIf="openAdminPage">
+    <div *ngIf="loader" class="loader-overlay">
+      <div class="spinner"></div>
+    </div>
+    <app-customer-lists *ngIf="loadCustomer"></app-customer-lists>
 
-<app-add-customer *ngIf="isAdd"></app-add-customer>
+    <app-add-customer *ngIf="isAdd"></app-add-customer>
 
-<app-update-customer *ngIf="isUpdate"></app-update-customer>
+    <app-update-customer *ngIf="isUpdate"></app-update-customer>
+  </ng-container>
+
+  <ng-container *ngIf="openCustomerPage">
+    <strong>
+      <h1 style="margin-left:5%">Welcome {{name}},</h1>
+    </strong>
+   <app-gallery></app-gallery>
+  </ng-container>
 </div>
-
